@@ -1,17 +1,12 @@
-#-------------------------------------------------------------------------------
-# Name:        module1
-# Purpose:
-#
-# Author:      henghuiz
-#
-# Created:     04/10/2015
-# Copyright:   (c) henghuiz 2015
-# Licence:     <your licence>
-#-------------------------------------------------------------------------------
-
 import numpy as np
 import cv2
 from common import draw_str
+
+def draw_keypoints(vis, keypoints, color = (0, 255, 255)):
+    for kp in keypoints:
+        x, y = kp.pt
+        d = kp.size
+        cv2.circle(vis, (int(x), int(y)), int(d), color)
 
 # Setup SimpleBlobDetector parameters.
 params = cv2.SimpleBlobDetector_Params()
@@ -52,17 +47,17 @@ while(True):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     
     keypoints = detector.detect(frame)
-    im_with_keypoints = cv2.drawKeypoints(frame, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    
+    #im_with_keypoints = cv2.drawKeypoints(frame, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    draw_keypoints(frame, keypoints)
     
     
     
     numkey = len(keypoints)
     for i in range(numkey):
-        draw_str(im_with_keypoints, (20, 20*(i+1)), '%4.4f,%4.4f' % (keypoints[i].pt[0],keypoints[i].pt[1]))
+        draw_str(frame, (20, 20*(i+1)), '%4.4f,%4.4f' % (keypoints[i].pt[0],keypoints[i].pt[1]))
 
 
-    cv2.imshow('frame',im_with_keypoints)
+    cv2.imshow('frame',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
