@@ -46,7 +46,8 @@ camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
- 
+font = cv2.FONT_HERSHEY_SIMPLEX
+
 # allow the camera to warmup
 time.sleep(0.1)
  
@@ -66,7 +67,7 @@ for cframe in camera.capture_continuous(rawCapture, format="bgr", use_video_port
     
     numkey = len(keypoints)
     for i in range(numkey):
-        draw_str(frame, (20, 20*(i+1)), '%4.4f,%4.4f' % (keypoints[i].pt[0],keypoints[i].pt[1]))
+        cv2.putText(frame, '%4.4f,%4.4f' % (keypoints[i].pt[0],keypoints[i].pt[1]), (20, 20*(i+1)), font, 0.5,(255,255,255),1)
 
 
     cv2.imshow("Frame", frame)

@@ -39,7 +39,8 @@ else :
     detector = cv2.SimpleBlobDetector_create(params)
 
 cam = cv2.VideoCapture(0)
-                     
+font = cv2.FONT_HERSHEY_SIMPLEX
+
 while(True):
     # Capture frame-by-frame
     ret, frame = cam.read()
@@ -54,11 +55,11 @@ while(True):
     
     numkey = len(keypoints)
     for i in range(numkey):
-        draw_str(frame, (20, 20*(i+1)), '%4.4f,%4.4f' % (keypoints[i].pt[0],keypoints[i].pt[1]))
+        cv2.putText(frame, '%4.4f,%4.4f' % (keypoints[i].pt[0],keypoints[i].pt[1]), (20, 20*(i+1)), font, 0.5,(255,255,255),1)
 
 
     cv2.imshow('frame',frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(20) & 0xFF == ord('q'):
         break
 
 cam.release()

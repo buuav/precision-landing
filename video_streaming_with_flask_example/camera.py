@@ -40,7 +40,8 @@ class VideoCamera(object):
         else : 
             self.detector = cv2.SimpleBlobDetector_create(params)
 
-        cam = cv2.VideoCapture(0)
+        self.font = cv2.FONT_HERSHEY_SIMPLEX
+
         # If you decide to use video.mp4, you must have this file in the folder
         # as the main.py.
         # self.video = cv2.VideoCapture('video.mp4')
@@ -56,7 +57,11 @@ class VideoCamera(object):
         # video stream.
         keypoints = self.detector.detect(frame)
         im_with_keypoints = cv2.drawKeypoints(frame, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
+        
+        numkey = len(keypoints)
+        for i in range(numkey):
+                cv2.putText(im_with_keypoints, '%4.4f,%4.4f' % (keypoints[i].pt[0],keypoints[i].pt[1]), (20, 20*(i+1)), self.font, 0.5,(255,255,255),1)
+        
 
         ret, jpeg = cv2.imencode('.jpg', im_with_keypoints)
         return jpeg.tostring()
