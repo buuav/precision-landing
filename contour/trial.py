@@ -21,7 +21,7 @@ while(1):
     mask1 = cv2.inRange(hsv, lower_red, upper_red)
 
 
-    lower_green = np.array([45,75,75])
+    lower_green = np.array([45,50,50])
     upper_green = np.array([80,255,255])
     mask2 = cv2.inRange(hsv, lower_green, upper_green)
     mask = mask0 + mask1 + mask2
@@ -32,7 +32,7 @@ while(1):
 
     noise_filter = cv2.erode(mask, regular_kernel, iterations = 1)
     noise_filter2 = cv2.dilate(noise_filter, regular_kernel, iterations = 3)
-    cv2.imshow('big',noise_filter2)
+    cv2.imshow('big',mask)
     noise_filter = cv2.erode(noise_filter2, small_kernel, iterations = 10)
 
 
